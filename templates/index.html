@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Prototipo Flask - Procesamiento de Imágenes</title>
+</head>
+<body>
+
+<div class="container">
+    <h2>Sube tu Imagen para Procesar</h2>
+    
+    <!-- Mensajes de alerta de Flask -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color: green; padding: 0; list-style: none;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Formulario vinculado a Flask -->
+    <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nombre">Nombre de usuario:</label>
+            <input type="text" id="nombre" name="nombre">
+            <div id="errorNombre" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="imagen">Selecciona una imagen:</label>
+
+            <input type="file" id="imagen" name="imagen" accept="image/*" class="input-file-oculto">
+            <label for="imagen" class="btn-personalizado">Elegir Archivo</label>
+            <span id="nombre-archivo">Ningún archivo seleccionado</span>
+
+            <div id="errorImagen" class="error"></div>
+        </div>
+
+        <button type="submit" class="btn-personalizado">Enviar y Procesar</button>
+    </form>
+
+    <!-- Mostrar imágenes procesadas si existen -->
+    {% if imagen_procesada %}
+        <div class="resultado">
+            <h3>Imagen Procesada</h3>
+            <img src="{{ url_for('static', filename='uploads/' + imagen_procesada) }}" alt="Imagen Procesada">
+        </div>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
